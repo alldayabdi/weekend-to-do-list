@@ -33,3 +33,31 @@ router.post('/', (req, res) => {
         res.sendStatus(500);
       });
   });
+
+  router.put('/:id', (req, res)=>{
+    let idToUpdate = req.params.id;
+    console.log(idToUpdate);
+    // console.log(req.body);
+  
+  
+  if(req.body.complete === 'Complete'){
+          sqlTest = `
+          UPDATE "tasktable" 
+          SET "isCompleted" = true
+          WHERE "id" = $1; 
+          `
+      
+      } else {
+          res.sendStatus(400);
+          return ;
+      }
+      let sqlValues = [idToUpdate];
+      pool.query(sqlTest, sqlValues)
+      .then(result=>{
+          res.sendStatus(200)
+      }).catch(error=>{
+          res.sendStatus(500);
+  
+      })
+  
+    })

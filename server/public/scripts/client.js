@@ -4,6 +4,7 @@ function readyNow(){
     console.log('JQuery is working!!');
     getTasks();
 $('#submitButton').on('click', submitTask);
+$('#taskTableBody').on('click', '.btn-complete', completeTask)
 }
 
 function submitTask(){
@@ -44,11 +45,11 @@ function renderTasks(tasks){
         $('#taskTableBody').append(
         `
         <tr data-id = ${taskitem.id}>
-            <td>${taskitem.task}</td>
-            <td>${taskitem.isCompleted}</td> 
+            <td id = taskDone>${taskitem.task}</td>
             <td>
+            <button class = "btn-complete" data-complete = ${taskitem.id}>Complete</button>
                 <button class = "btn-delete" data-delete = ${taskitem.id}>Delete</button>
-                <button class = "btn-complete" data-complete = ${taskitem.id}>Complete</button>
+                
             </td>
         </tr>
     `);
@@ -56,4 +57,22 @@ function renderTasks(tasks){
 
 
         }
+}
+
+function completeTask(){
+    let id =$(this).closest('tr').data().id
+    let complete = $(this).text();
+    console.log(complete);
+  
+    $.ajax({
+      method: 'PUT',
+      url: `/tasks/${id}`,
+      data: {
+          complete: complete
+      }
+  }).then(function(response){
+      getTasks();
+  }).catch(function(response){
+      console.log('Error!!', response);
+  })    
 }
