@@ -16,7 +16,7 @@ function submitTask(){
         $.ajax({
             type: 'POST',
             url: '/tasks',
-            data: {taskObject}
+            data: taskObject
         }).then( function (response) {
             
             getTasks();
@@ -26,28 +26,34 @@ function submitTask(){
 }
 
 function getTasks(){
-$("taskTableBody").empty();
         $.ajax({
         type: 'GET',
         url: `/tasks`
         }).then(function(response){
             console.log('GET /tasks response', response);
-            for (let i = 0; i < response.length; i++) {
-                const taskitem = response[i];
-                $('#taskTableBody').append(`
-                <tr data-id = ${taskitem.id}>
-                    <td>${taskitem.task}</td>
-                    <td>${taskitem.isCompleted}</td>
-                    <td>
-                        <button class = "btn-delete" data-delete = ${taskitem.id}>Delete</button>
-                        <button class = "btn-complete" data-complete = ${taskitem.id}>Complete</button>
-                    </td>
-                </tr>
-            `);
-                
-            }
+            renderTasks(response)
+        }).catch(function(response){
+            console.log('Error in GET', error);    
         })
+}
+
+function renderTasks(tasks){
+    $('#taskTableBody').empty()
+    for (let i = 0; i < tasks.length; i++) {
+        const taskitem = tasks[i];
+        $('#taskTableBody').append(
+        `
+        <tr data-id = ${taskitem.id}>
+            <td>${taskitem.task}</td>
+            <td>${taskitem.isCompleted}</td> 
+            <td>
+                <button class = "btn-delete" data-delete = ${taskitem.id}>Delete</button>
+                <button class = "btn-complete" data-complete = ${taskitem.id}>Complete</button>
+            </td>
+        </tr>
+    `);
 
 
 
+        }
 }
