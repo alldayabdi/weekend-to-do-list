@@ -43,6 +43,7 @@ function renderTasks(tasks){
     $('#taskTableBody').empty()
     for (let i = 0; i < tasks.length; i++) {
         const taskitem = tasks[i];
+        if(taskitem.isCompleted === 'Complete'){
         $('#taskTableBody').append(
         `
         <tr data-id = ${taskitem.id}>
@@ -51,22 +52,26 @@ function renderTasks(tasks){
             <button class = "btn-complete" data-complete = ${taskitem.id}>Complete</button>
                 <button class = "btn-delete" data-delete = ${taskitem.id}>Delete</button>
             </td>
+        </tr> `);
+        } else {
+            $('#taskTableBody').append(`
+            <tr data-id = ${taskitem.id}>
+            <td id = taskDone>${taskitem.task}</td>
+            <td>
+                <button class = "btn-delete" data-delete = ${taskitem.id}>Delete</button>
+                <button class = "btn-complete" data-complete = ${taskitem.id}>Complete</button>
+            </td>
         </tr>
-    `);
-    
-        
-    
-
-
-
+           ` )
+        }
         }
 }
 
 function completeTask(){
-    $('tr').css('background-color','green');
     let id =$(this).closest('tr').data().id
     let complete = $(this).text();
     console.log(complete);
+  
    
   
     $.ajax({

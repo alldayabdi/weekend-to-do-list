@@ -1,0 +1,22 @@
+body {
+    margin: 0; 
+    background-color: lightcyan; 
+}
+
+#taskTableBody {
+    margin-top: 3em; 
+    margin-left: 26em; 
+    margin-right: 25em; 
+    text-align: center; 
+    border-style: solid; 
+    background-color: firebrick; 
+    color: white;
+}
+
+td {
+    padding-bottom: .5em; 
+    width: 5em; 
+    margin-left: 9.5em; 
+    margin-right: 9.5em; 
+    text-align: center; 
+}
