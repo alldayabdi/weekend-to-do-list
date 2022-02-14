@@ -5,6 +5,7 @@ function readyNow(){
     getTasks();
 $('#submitButton').on('click', submitTask);
 $('#taskTableBody').on('click', '.btn-complete', completeTask)
+$('#taskTableBody').on('click', '.btn-delete', deleteTask)
 }
 
 function submitTask(){
@@ -49,10 +50,12 @@ function renderTasks(tasks){
             <td>
             <button class = "btn-complete" data-complete = ${taskitem.id}>Complete</button>
                 <button class = "btn-delete" data-delete = ${taskitem.id}>Delete</button>
-                
             </td>
         </tr>
     `);
+    
+        
+    
 
 
 
@@ -60,9 +63,11 @@ function renderTasks(tasks){
 }
 
 function completeTask(){
+    $('tr').css('background-color','green');
     let id =$(this).closest('tr').data().id
     let complete = $(this).text();
     console.log(complete);
+   
   
     $.ajax({
       method: 'PUT',
@@ -76,3 +81,18 @@ function completeTask(){
       console.log('Error!!', response);
   })    
 }
+
+function deleteTask(){
+    let newTaskId = $(this).data().delete  
+    console.log(newTaskId);
+      $.ajax({
+        method: 'DELETE',
+        url: `/tasks/${newTaskId}`
+    }).then(function(response){
+        console.log('Deleted it!', response);
+        getTasks();
+    }).catch(function(error){
+        console.log('Error DELETING', error);
+    })
+    // console.log('Clicked Delete!!');
+  }

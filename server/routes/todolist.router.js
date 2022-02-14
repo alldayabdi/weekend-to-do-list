@@ -61,3 +61,16 @@ router.post('/', (req, res) => {
       })
   
     })
+
+    router.delete('/:id', (req,res)=>{
+        let reqId = req.params.id;
+        console.log('Delete ID', reqId);
+        let queryText = 'DELETE FROM "tasktable" where id = $1;';
+        pool.query(queryText, [reqId])
+        .then((result)=>{
+            console.log('task deleted');
+            res.sendStatus(200);
+        }).catch((error)=>{
+            console.log('Error making database query', queryText, error);
+        })
+      })
